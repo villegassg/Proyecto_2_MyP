@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.BookViewController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Help" />
+          <Menu mnemonicParsing="false" text="About us" />
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <ImageView fx:id="bookImageView" fitHeight="400.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="70.0" left="30.0" />
+         </BorderPane.margin>
+      </ImageView>
+   </left>
+   <center>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="548.0" prefWidth="442.0">
+               <children>
+                  <Label fx:id="titleLabel" alignment="TOP_LEFT" layoutX="20.0" layoutY="24.0" prefHeight="101.0" prefWidth="402.0" text="Title">
+                     <font>
+                        <Font name="Optima Bold" size="40.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="categoryLabel" layoutX="20.0" layoutY="172.0" prefHeight="24.0" prefWidth="397.0" text="Category">
+                     <font>
+                        <Font name="Kefa Regular" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="authorLabel" layoutX="20.0" layoutY="137.0" prefHeight="22.0" prefWidth="401.0" text="Author">
+                     <font>
+                        <Font name="Hiragino Sans W6" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="editorialLabel" layoutX="20.0" layoutY="208.0" prefHeight="24.0" prefWidth="390.0" text="Editorial">
+                     <font>
+                        <Font name="Kefa Regular" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="20.0" layoutY="274.0" text="To ask for this book, please enter your data :">
+                     <font>
+                        <Font name="Serif Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="firstNameLabel" layoutX="126.0" layoutY="300.0" prefHeight="26.0" prefWidth="290.0" />
+                  <TextField fx:id="lastNameLabel" layoutX="126.0" layoutY="333.0" prefHeight="26.0" prefWidth="290.0" />
+                  <Label layoutX="54.0" layoutY="305.0" text="First Name:" />
+                  <Label layoutX="54.0" layoutY="338.0" text="Last Name:" />
+                  <Label layoutX="20.0" layoutY="371.0" text="Account Number:" />
+                  <TextField fx:id="accountNumberLabel" layoutX="126.0" layoutY="366.0" prefHeight="26.0" prefWidth="290.0" />
+                  <Button fx:id="submitButton" layoutX="20.0" layoutY="409.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="396.0" style="-fx-background-color: #76bad6;" text="Submit" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

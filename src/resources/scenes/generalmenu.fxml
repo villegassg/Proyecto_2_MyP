@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.GeneralMenuController">
+   <children>
+      <MenuBar prefHeight="28.0" prefWidth="800.0">
+        <menus>
+            <Menu mnemonicParsing="false" text="Search">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Name" />
+                  <MenuItem mnemonicParsing="false" text="Author" />
+                  <MenuItem mnemonicParsing="false" text="Category" />
+                  <MenuItem mnemonicParsing="false" text="Editorial" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help" />
+          <Menu mnemonicParsing="false" text="About us" />
+        </menus>
+      </MenuBar>
+      <Label fx:id="label" layoutX="133.0" layoutY="60.0" text="Bienvenido a la Bibioteca Cheems">
+         <font>
+            <Font name="MuktaMahee Bold" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="349.0" fitWidth="555.0" layoutX="123.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/bibliotecaCheems.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="1.0" layoutY="508.0" prefHeight="93.0" prefWidth="800.0">
+         <children>
+            <ButtonBar layoutX="63.0" layoutY="8.0" prefHeight="77.0" prefWidth="675.0">
+              <buttons>
+                  <RadioButton fx:id="nameButton" mnemonicParsing="false" text="Name">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="book" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="authorButton" mnemonicParsing="false" text="Author" toggleGroup="$book" />
+                  <RadioButton fx:id="categoryButton" mnemonicParsing="false" text="Category" toggleGroup="$book" />
+                  <RadioButton fx:id="editorialButton" mnemonicParsing="false" text="Editorial" toggleGroup="$book" />
+                  <Button fx:id="searchButton" maxHeight="-Infinity" minHeight="-Infinity" onAction="#search" prefHeight="50.0" prefWidth="120.0" text="Buscar" />
+              </buttons>
+            </ButtonBar>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
