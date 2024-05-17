@@ -25,9 +25,64 @@ public class GeneralMenuController {
     @FXML private ImageView categoryImage = new ImageView(new Image("resources/images/category.png"));
     @FXML private ImageView editorialImage = new ImageView(new Image("resources/images/editorial.png"));
 
+    private boolean nameButtonIsSelected;
+    private boolean authorButtonIsSelected;
+    private boolean categoryButtonIsSelected;
+    private boolean editorialButtonIsSelected;
     private Stage stage;
     private boolean isConnected;
 
+    public void setNameButton() {
+        nameButtonIsSelected = true;
+        authorButtonIsSelected = false;
+        categoryButtonIsSelected = false;
+        editorialButtonIsSelected = false;
+    }
+
+    public void setAuthorButton() {
+        nameButtonIsSelected = false;
+        authorButtonIsSelected = true;
+        categoryButtonIsSelected = false;
+        editorialButtonIsSelected = false;
+    }
+    
+    public void setCategoryButton() {
+        nameButtonIsSelected = false;
+        authorButtonIsSelected = false;
+        categoryButtonIsSelected = true;
+        editorialButtonIsSelected = false;
+    }
+
+    public void setEditorialButton() {
+        nameButtonIsSelected = false;
+        authorButtonIsSelected = false;
+        categoryButtonIsSelected = false;
+        editorialButtonIsSelected = true;
+    }
+
+    public void setNameSelected(ActionEvent event) {
+        nameButton.setSelected(true);
+        setNameButton();
+        search(event);
+    }
+
+    public void setAuthorSelected(ActionEvent event) {
+        authorButton.setSelected(true);
+        setAuthorButton();
+        search(event);
+    }
+
+    public void setCategorySelected(ActionEvent event) {
+        categoryButton.setSelected(true);
+        setCategoryButton();
+        search(event);
+    }
+
+    public void setEditorialSelected(ActionEvent event) {
+        editorialButton.setSelected(true);
+        setEditorialButton();
+        search(event);
+    }
 
     public void setImages() {
         nameImage.setFitHeight(40);
@@ -52,7 +107,7 @@ public class GeneralMenuController {
     public void search(ActionEvent event) {
         SearchDialogue dialogue;
         try {
-            dialogue  = new SearchDialogue(stage);
+            dialogue  = new SearchDialogue(stage, lookForSelectedButton());
         } catch (IOException e) {
             String message = "There was an error when trying to display the search dialogue";
             errorDialogue("Error when trying to load the interface", message);
@@ -77,5 +132,13 @@ public class GeneralMenuController {
             dialogue.showAndWait();
             stage.requestFocus();
         }
+    }
+ 
+    private short lookForSelectedButton() {
+        if (nameButtonIsSelected) return 1;
+        else if (authorButtonIsSelected) return 2;
+        else if (categoryButtonIsSelected) return 3;
+        else if (editorialButtonIsSelected) return 4;
+        else return -1;
     }
 }

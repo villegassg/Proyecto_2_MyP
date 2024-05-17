@@ -52,7 +52,7 @@ public class SearchController implements Initializable {
                 break;
             case CATEGORY:
                 message = "Category of the book";
-            break;
+                break;
             case EDITORIAL:
                 message = "Editorial of the book";
                 break;
@@ -91,6 +91,23 @@ public class SearchController implements Initializable {
                 }
             }
         });
+    }
 
+    public void setValue(short button) {
+        switch (button) {
+            case 1: 
+                options.setValue(BookField.NAME);
+                break;
+            case 2: 
+                options.setValue(BookField.AUTHOR);
+                break;
+            case 3:
+                options.setValue(BookField.CATEGORY);
+                break;
+            case 4:
+                options.setValue(BookField.EDITORIAL);
+                break;
+            default: break;
+        }
     }
 }

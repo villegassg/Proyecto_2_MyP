@@ -19,10 +19,10 @@
         <menus>
             <Menu mnemonicParsing="false" text="Search">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Name" />
-                  <MenuItem mnemonicParsing="false" text="Author" />
-                  <MenuItem mnemonicParsing="false" text="Category" />
-                  <MenuItem mnemonicParsing="false" text="Editorial" />
+                  <MenuItem fx:id="nameMenuItem" mnemonicParsing="false" onAction="#setNameSelected" text="Name" />
+                  <MenuItem fx:id="authorMenuItem" mnemonicParsing="false" onAction="#setAuthorSelected" text="Author" />
+                  <MenuItem fx:id="categoryMenuItem" mnemonicParsing="false" onAction="#setCategorySelected" text="Category" />
+                  <MenuItem fx:id="editorialMenuItem" mnemonicParsing="false" onAction="#setEditorialSelected" text="Editorial" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Help" />
@@ -43,14 +43,14 @@
          <children>
             <ButtonBar layoutX="63.0" layoutY="8.0" prefHeight="77.0" prefWidth="675.0">
               <buttons>
-                  <RadioButton fx:id="nameButton" mnemonicParsing="false" text="Name">
+                  <RadioButton fx:id="nameButton" mnemonicParsing="false" onAction="#setNameButton" text="Name">
                      <toggleGroup>
                         <ToggleGroup fx:id="book" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="authorButton" mnemonicParsing="false" text="Author" toggleGroup="$book" />
-                  <RadioButton fx:id="categoryButton" mnemonicParsing="false" text="Category" toggleGroup="$book" />
-                  <RadioButton fx:id="editorialButton" mnemonicParsing="false" text="Editorial" toggleGroup="$book" />
+                  <RadioButton fx:id="authorButton" mnemonicParsing="false" onAction="#setAuthorButton" text="Author" toggleGroup="$book" />
+                  <RadioButton fx:id="categoryButton" mnemonicParsing="false" onAction="#setCategoryButton" text="Category" toggleGroup="$book" />
+                  <RadioButton fx:id="editorialButton" mnemonicParsing="false" onAction="#setEditorialButton" text="Editorial" toggleGroup="$book" />
                   <Button fx:id="searchButton" maxHeight="-Infinity" minHeight="-Infinity" onAction="#search" prefHeight="50.0" prefWidth="120.0" text="Buscar" />
               </buttons>
             </ButtonBar>

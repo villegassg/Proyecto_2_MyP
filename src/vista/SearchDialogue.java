@@ -15,7 +15,7 @@ public class SearchDialogue extends Stage {
 
     private SearchController controller;
 
-    public SearchDialogue(Stage stage) throws IOException {
+    public SearchDialogue(Stage stage, short button) throws IOException {
         try {
             FXMLLoader loader = 
                 new FXMLLoader(getClass().getClassLoader().getResource(SEARCH_BOOKS));
@@ -26,6 +26,7 @@ public class SearchDialogue extends Stage {
             Scene scene = new Scene(pane);
             setScene(scene);
             controller = loader.getController();
+            controller.setValue(button);
             stage.setOnShown(w -> controller.defineFocus());
             setResizable(false);
         } catch (IOException ioe) {
