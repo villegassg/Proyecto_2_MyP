@@ -1,6 +1,8 @@
 package net;
 
+import java.util.LinkedList;
+
 public interface SearchStrategy {
     
-    public Book search(String property);
+    public LinkedList<Book> search(String property);
 }

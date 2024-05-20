@@ -1,5 +1,8 @@
 package net;
 
+import java.util.LinkedList;
+
+import data_structures.BinaryTreeVertex;
 import data_structures.RedBlackTree;
 
 public class SearchByAuthor implements SearchStrategy {
@@ -11,9 +14,14 @@ public class SearchByAuthor implements SearchStrategy {
         this.db = db;
     }
     
-    public Book search(String property) {
+    public LinkedList<Book> search(String property) {
         tree = db.getAuthorsTree();
         Book book = new Book(null, property, null, null, null);
-        return tree.search(book).get();
+        LinkedList<BinaryTreeVertex<Book>> list = tree.search(book);
+        LinkedList<Book> books = new LinkedList<>();
+        for (BinaryTreeVertex<Book> v : list) {
+            books.add(v.get());
+        }
+        return books;
     }
 }

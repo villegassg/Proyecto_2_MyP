@@ -2,6 +2,7 @@ package data_structures;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
@@ -100,15 +101,18 @@ public class OrderedBinaryTree<T extends Comparable<T>> extends BinaryTree<T> {
     }
 
     @Override public void remove(T element) {
-        Vertex v = vertex(search(element));
-        if (v == null)
-            return;
-        else {
-            elements--;
-            if (v == root && isLeaf(v))
-                root = null;
-            else 
-                removeAuxiliary(v);
+        LinkedList<BinaryTreeVertex<T>> list = search(element);
+        for (BinaryTreeVertex<T> vertex : list) {
+            Vertex v = vertex(vertex);
+            if (v == null)
+                return;
+            else {
+                elements--;
+                if (v == root && isLeaf(v))
+                    root = null;
+                else 
+                    removeAuxiliary(v);
+            }
         }
     }
 
@@ -155,24 +159,26 @@ public class OrderedBinaryTree<T extends Comparable<T>> extends BinaryTree<T> {
         if (son != null) son.father = vertex.father;
     }
 
-    @Override public BinaryTreeVertex<T> search(T element) {
-        return searchVertex(root, element);
+    @Override public LinkedList<BinaryTreeVertex<T>> search(T element) {
+        LinkedList<BinaryTreeVertex<T>> results = new LinkedList<>();
+        return searchVertex(root, element, results);
     }
 
-    private BinaryTreeVertex<T> searchVertex(Vertex v, T element) {
+    private LinkedList<BinaryTreeVertex<T>> searchVertex(Vertex v, T element, LinkedList<BinaryTreeVertex<T>> results) {
         if (v == null)
-            return null;
+            return results;
         else {
             int comparison = (comparator == null) ?
                 v.element.compareTo(element) :
                 comparator.compare(v.element, element);
 
-            if (comparison == 0)
-                return v;
-            else 
+            if (comparison == 0) {
+                results.add(v);
+                return searchVertex(v.left, element, results);
+            } else 
                 return (comparison > 0) ?
-                    searchVertex(v.left, element) :
-                    searchVertex(v.right, element);
+                    searchVertex(v.left, element, results) :
+                    searchVertex(v.right, element, results);
         }
     }
 
