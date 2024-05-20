@@ -42,4 +42,20 @@ public class Database {
             tree.remove(book);
         }
     }
+
+    public RedBlackTree<Book> getNamesTree() {
+        return byName;
+    } 
+
+    public RedBlackTree<Book> getAuthorsTree() {
+        return byAuthor;
+    }
+
+    public RedBlackTree<Book> getCategoriesTree() {
+        return byCategory;
+    }
+
+    public RedBlackTree<Book> getEditorialsTree() {
+        return byEditorial;
+    }
 }
