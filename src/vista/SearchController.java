@@ -1,5 +1,6 @@
 package vista;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,11 +35,18 @@ public class SearchController implements Initializable {
         return accepted;
     }
 
-    @FXML private void search(ActionEvent event) {
+    @FXML private void search(ActionEvent event) throws IOException {
         if (stage == null)
             stage = (Stage)value.getScene().getWindow();
+        SearchResults results;
+        try {
+            results = new SearchResults(stage);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        results.show();
         accepted = true;
-        stage.close();
     }
 
     public Tooltip getTooltip() {
