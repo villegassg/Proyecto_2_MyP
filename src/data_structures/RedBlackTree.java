@@ -1,6 +1,7 @@
 package data_structures;
 
 import java.util.Comparator;
+import java.util.LinkedList;
 
 public class RedBlackTree<T extends Comparable<T>> extends OrderedBinaryTree<T> {
     
@@ -113,32 +114,35 @@ public class RedBlackTree<T extends Comparable<T>> extends OrderedBinaryTree<T> 
     }
 
     @Override public void remove(T element) {
-        RedBlackVertex v = redBlackVertex(search(element));
-        if (v == null) 
-            return;
-        elements--;
-        RedBlackVertex son = null;
-        if (hasTwoChildren(v)) {
-            v = redBlackVertex(exchangeRemovable(v));
-            son = (RedBlackVertex)v.left;
-        } else if (onlyHasLeft(v))
-            son = (RedBlackVertex)v.left;
-        else if (onlyHasRight(v))
-            son = (RedBlackVertex)v.right;
+        LinkedList<BinaryTreeVertex<T>> list = search(element);
+        for (BinaryTreeVertex<T> vertex : list) {
+            RedBlackVertex v = redBlackVertex(vertex);
+            if (v == null) 
+                return;
+            elements--;
+            RedBlackVertex son = null;
+            if (hasTwoChildren(v)) {
+                v = redBlackVertex(exchangeRemovable(v));
+                son = (RedBlackVertex)v.left;
+            } else if (onlyHasLeft(v))
+                son = (RedBlackVertex)v.left;
+            else if (onlyHasRight(v))
+                son = (RedBlackVertex)v.right;
 
-        if (color(son) == Color.RED) {
-            removeVertex(v);
-            son.color = Color.BLACK;
-            return;
-        } else if (color(v) == Color.RED) {
-            removeVertex(v);
-            return;
-        } else if (son == null && color(v) == Color.BLACK) {
-            rebalanceToRemove(v);
-            removeVertex(v);
-        } else if (son != null && color(son) == Color.BLACK && color(v) == Color.BLACK) {
-            removeVertex(v);
-            rebalanceToRemove(son);
+            if (color(son) == Color.RED) {
+                removeVertex(v);
+                son.color = Color.BLACK;
+                return;
+            } else if (color(v) == Color.RED) {
+                removeVertex(v);
+                return;
+            } else if (son == null && color(v) == Color.BLACK) {
+                rebalanceToRemove(v);
+                removeVertex(v);
+            } else if (son != null && color(son) == Color.BLACK && color(v) == Color.BLACK) {
+                removeVertex(v);
+                rebalanceToRemove(son);
+            }
         }
     }
 

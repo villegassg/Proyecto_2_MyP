@@ -165,10 +165,11 @@ public abstract class BinaryTree<T> implements Collection<T> {
         return false;
     }
 
-    public BinaryTreeVertex<T> search(T element) {
+    public LinkedList<BinaryTreeVertex<T>> search(T element) {
         if (element == null)
             return null;
 
+        LinkedList<BinaryTreeVertex<T>> list = new LinkedList<>();
         Queue<Vertex> queue = new LinkedList<>();
 
         if (root != null)
@@ -177,7 +178,7 @@ public abstract class BinaryTree<T> implements Collection<T> {
         while (!queue.isEmpty()) {
             Vertex v = queue.poll();
             if (v.element.equals(element))
-                return v;
+                list.add(v);
             else {
                 if (v.hasLeft())
                     queue.offer(v.left);
@@ -187,7 +188,7 @@ public abstract class BinaryTree<T> implements Collection<T> {
             }
         }
 
-        return null;
+        return list;
     }
 
     public BinaryTreeVertex<T> root() {
