@@ -19,7 +19,7 @@ public class SearchResults extends Stage {
 
     private SearchResultsController controller;
 
-    public SearchResults(Stage stage) throws IOException {
+    public SearchResults(Stage stage, LinkedList<Book> results) throws IOException {
         try {
             FXMLLoader loader =
                     new FXMLLoader(getClass().getClassLoader().getResource(SEARCH_RESULTS));
@@ -30,12 +30,7 @@ public class SearchResults extends Stage {
             Scene scene = new Scene(pane);
             setScene(scene);
             controller = loader.getController();
-            LinkedList<Book> list = new LinkedList<>();
-            list.add(new Book("pene", "luk", "penes", "peneEnjoyers", null));
-            list.add(new Book("pene2: la secuela", "luk", "penes", "peneEnjoyers", null));
-            list.add(new Book("pene-1: la precuela", "luk", "penes", "peneEnjoyers", null));
-            list.add(new Book("pene3: la venida", "luk", "penes", "peneEnjoyers", null));
-            controller.setData(list);
+            controller.setData(results);
             controller.setStage(stage);
             setResizable(false);
         } catch (IOException ioe) {
@@ -44,5 +39,9 @@ public class SearchResults extends Stage {
             ioe.printStackTrace();
             throw new IOException();
         }
+    }
+
+    public SearchResultsController getController() {
+        return controller;
     }
 }

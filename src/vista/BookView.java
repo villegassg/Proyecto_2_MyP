@@ -37,4 +37,8 @@ public class BookView extends Stage {
             throw new IOException();
         }
     }
+
+    public BookViewController getController() {
+        return controller;
+    }
 }

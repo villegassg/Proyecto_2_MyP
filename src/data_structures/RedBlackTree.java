@@ -71,7 +71,7 @@ public class RedBlackTree<T extends Comparable<T>> extends OrderedBinaryTree<T> 
     }
 
     private void rebalanceToAdd(RedBlackVertex v) {
-        RedBlackVertex father = (RedBlackVertex)v.father();
+        RedBlackVertex father = getFather(v);
         // Case 1.
         if (father == null) {
             v.color = Color.BLACK;
@@ -90,12 +90,12 @@ public class RedBlackTree<T extends Comparable<T>> extends OrderedBinaryTree<T> 
                 return;
             } else {
                 // Case 4.
-                if (isCrossedLeft(v)) {
+                if (isCrossedRight(v)) {
                     super.turnLeft(father);
                     RedBlackVertex aux = v;
                     v = father;
                     father = aux;
-                } else if (isCrossedRight(v)) {
+                } else if (isCrossedLeft(v)) {
                     super.turnRight(father);
                     RedBlackVertex aux = v;
                     v = father;

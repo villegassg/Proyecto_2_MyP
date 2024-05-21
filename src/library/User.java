@@ -1,6 +1,6 @@
 package library;
 
-public class User {
+public class User implements UserInterface {
     private String name;
     private int password;
     private long accountNumber;
@@ -12,22 +12,27 @@ public class User {
         this.accountNumber = accountNumber;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getPassword() {
         return password;
     }
 
+    @Override
     public long getAccountNumber() {
         return accountNumber;
     }
 
+    @Override
     public int getNumberOfRequests() {
         return numberOfRequests;
     }
 
+    @Override
     public void setNumberOfRequests(int number) {
         numberOfRequests = number;
     }
@@ -37,7 +42,7 @@ public class User {
      * @param str la contraseña.
      * @return un entero positivo que es la dispersión de la contraseña.
      */
-    public int hash(String str) {
+    private int hash(String str) {
         int hash = 5381;
         
         for (int i = 0; i < str.length(); i++) {

@@ -31,7 +31,7 @@
    <center>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="548.0" prefWidth="442.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="548.0" prefWidth="442.0" style="-fx-background-color: white;">
                <children>
                   <Label fx:id="titleLabel" alignment="TOP_LEFT" layoutX="20.0" layoutY="24.0" prefHeight="101.0" prefWidth="402.0" text="Title">
                      <font>
@@ -65,6 +65,11 @@
                   <Label layoutX="20.0" layoutY="371.0" text="Account Number:" />
                   <TextField fx:id="accountNumberLabel" layoutX="126.0" layoutY="366.0" prefHeight="26.0" prefWidth="290.0" />
                   <Button fx:id="submitButton" layoutX="20.0" layoutY="409.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="396.0" style="-fx-background-color: #76bad6;" text="Submit" />
+                  <Button fx:id="backButton" layoutX="165.0" layoutY="492.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="100.0" text="Back">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
         </content>

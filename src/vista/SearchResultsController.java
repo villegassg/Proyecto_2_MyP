@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import net.Book;
+import net.Connection;
 
 public class SearchResultsController implements Initializable {
     @FXML private TableView<Book> table;
@@ -27,6 +28,7 @@ public class SearchResultsController implements Initializable {
     @FXML private Button backButton;
     @FXML private Button viewButton;
     private Stage stage;
+    private Connection connection;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,7 +63,13 @@ public class SearchResultsController implements Initializable {
             e.printStackTrace();
             return;
         }
+        BookViewController controller = bookView.getController();
+        controller.setConnection(connection);
         bookView.show();
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }
 
