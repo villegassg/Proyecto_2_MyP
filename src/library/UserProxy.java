@@ -3,7 +3,7 @@ package library;
 import java.util.LinkedList;
 import net.Book;
 
-public class UserProxy {
+public class UserProxy implements UserInterface {
     private User user;
     private String name;
     private int password;
@@ -20,23 +20,28 @@ public class UserProxy {
         askedBooks = new LinkedList<>();
     }
 
+    @Override
     public void setNumberOfRequests(int number) {
         numberOfRequests = number;
         user.setNumberOfRequests(number);
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getPassword() {
         return password;
     }
 
+    @Override
     public long getAccountNumber() {
         return accountNumber;
     }
 
+    @Override
     public int getNumberOfRequests() {
         return numberOfRequests;
     }

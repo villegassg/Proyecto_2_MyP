@@ -1,5 +1,8 @@
 package vista;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +25,9 @@ public class App extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Bibioteca Cheems");
             primaryStage.show();
+        } catch (IOException ioe) {
+            System.out.println("There was an error when trying to create a socket.\n");
+            ioe.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

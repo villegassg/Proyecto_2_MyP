@@ -1,6 +1,9 @@
 package vista;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.Socket;
+import java.util.LinkedList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,10 +16,17 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import net.Book;
+import net.Connection;
 
 public class GeneralMenuController {
+    
+    private static final String BOOK = "BOOK";
+    private static final String FINISHRESULTS = "FINISHRESULTS";
+    private static final String REQUESTAPROVED = "REQUESTAPROVED";
+    private static final String REQUESTDENIED = "REQUESTDENIED";
 
-    @FXML private MenuItem nameMenu, authorMenu, categoryMenu, editorialMenu;
+    @FXML private MenuItem connectMenu, nameMenu, authorMenu, categoryMenu, editorialMenu;
     @FXML private RadioButton nameButton, authorButton, categoryButton, editorialButton;
     @FXML private Button searchButton;
     @FXML private Label label;
@@ -24,6 +34,7 @@ public class GeneralMenuController {
     @FXML private ImageView authorImage = new ImageView(new Image("resources/images/author.png"));
     @FXML private ImageView categoryImage = new ImageView(new Image("resources/images/category.png"));
     @FXML private ImageView editorialImage = new ImageView(new Image("resources/images/editorial.png"));
+    SearchDialogue dialogue;
 
     private boolean nameButtonIsSelected;
     private boolean authorButtonIsSelected;
@@ -31,6 +42,8 @@ public class GeneralMenuController {
     private boolean editorialButtonIsSelected;
     private Stage stage;
     private boolean isConnected;
+    private Connection connection;
+    private LinkedList<Book> searchResults = new LinkedList<>();
 
     public void setNameButton() {
         nameButtonIsSelected = true;
@@ -100,12 +113,46 @@ public class GeneralMenuController {
         editorialButton.setGraphic(editorialImage);
     }
 
+    public void connect(ActionEvent event) {
+        String ip = "";
+        try {
+            Socket socket = new Socket("localhost", 1234);
+            this.connection = new Connection(socket);
+            connection.addListener((c, m) -> receivedMessage(c, m));
+            isConnected = true;
+            new Thread(() -> connection.receiveMessages()).start();
+            ip = socket.getInetAddress().toString();
+        } catch (IOException ioe) {
+            System.out.println("\nClientConnectionException:\n");
+            ioe.printStackTrace();
+            errorDialogue("ERROR DE CONEXIÓN", 
+                "Lo sentimos, ocurrió un error al tratar de establecer conexión con " + 
+                "la dirección ip: " + ip);
+        }
+    }
+
+    public void receivedMessage(Connection connection, String message) {
+        if (isConnected) {
+            if (message.startsWith(BOOK)) {
+                collectResults(message);
+            } else if (message.startsWith(FINISHRESULTS)) {
+                showResults();
+            } else if (message.startsWith(REQUESTAPROVED)) {
+                String m = message.substring(REQUESTAPROVED.length());
+                requestAproved(m);
+            } else if (message.startsWith(REQUESTDENIED)) {
+                String m = "Your request has been denied. You have not entered a valid user.";
+                requestDenied(m);
+            }
+        }
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     public void search(ActionEvent event) {
-        SearchDialogue dialogue;
+        searchResults.clear();
         try {
             dialogue  = new SearchDialogue(stage, lookForSelectedButton());
         } catch (IOException e) {
@@ -113,10 +160,48 @@ public class GeneralMenuController {
             errorDialogue("Error when trying to load the interface", message);
             return;
         }
+        SearchController controller = dialogue.getController();
+        controller.setConnection(connection);
         dialogue.showAndWait();
-        // table.requestFocus();
-        //ArrayList<BookProxy> results = 
-        // viewSelectionModel.clearSelection();
+    }
+
+    private void collectResults(String message) {
+        String bookForm = message.substring(BOOK.length() + 1);
+        String[] parameters = bookForm.split("\t");
+        int ID = Integer.parseInt(parameters[0].substring("Id: ".length()));
+        String NAME = parameters[1].substring("Name: ".length());
+        String AUTHOR = parameters[2].substring("Author: ".length());
+        String CATEGORY = parameters[3].substring("Category: ".length());
+        String EDITORIAL = parameters[4].substring("Editorial: ".length());
+        String PATH = parameters[5].substring("Path: ".length());
+        Book book = new Book(ID, NAME, AUTHOR, CATEGORY, EDITORIAL, PATH);
+        searchResults.add(book);
+    }
+
+    private void showResults() {
+        SearchController controller = dialogue.getController();
+        controller.setConnection(connection);
+        controller.showResults(searchResults);
+    }
+
+    private void requestAproved(String message) { 
+        RequestConfirmation requestConfirmation;
+        try {
+            requestConfirmation = new RequestConfirmation(stage, message);
+        } catch (IOException e) {
+            errorDialogue("Error when trying to load the interface", message);
+            return;
+        }
+        requestConfirmation.showAndWait();
+    }
+
+    private void requestDenied(String message) {
+        Alert dialogue = new Alert(AlertType.ERROR);
+        dialogue.setTitle("Request Denied");
+        dialogue.setHeaderText(null);
+        dialogue.setContentText(message);
+        dialogue.showAndWait();
+        stage.requestFocus();
     }
 
     private void errorDialogue(String title, String message) {

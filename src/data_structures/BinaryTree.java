@@ -31,7 +31,7 @@ public abstract class BinaryTree<T> implements Collection<T> {
 
         @Override public BinaryTreeVertex<T> father() {
             if (hasFather()) 
-                return father();
+                return father;
             else throw new NoSuchElementException("There's no father.\n");
         }
 
@@ -199,7 +199,7 @@ public abstract class BinaryTree<T> implements Collection<T> {
     }
 
     @Override public boolean isEmpty() {
-        return root != null;
+        return root == null;
     }
 
     @Override public void clear() {

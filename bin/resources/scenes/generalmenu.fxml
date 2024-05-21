@@ -17,6 +17,11 @@
    <children>
       <MenuBar prefHeight="28.0" prefWidth="800.0">
         <menus>
+            <Menu mnemonicParsing="false" text="Connect">
+              <items>
+                <MenuItem fx:id="connectMenuItem" mnemonicParsing="false" onAction="#connect" text="Connect" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Search">
                <items>
                   <MenuItem fx:id="nameMenuItem" mnemonicParsing="false" onAction="#setNameSelected" text="Name" />

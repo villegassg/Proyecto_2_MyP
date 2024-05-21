@@ -1,9 +1,12 @@
 package vista;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,15 +17,22 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
+import net.Book;
 import net.BookField;
+import net.Connection;
 
 public class SearchController implements Initializable {
+
+    private static final String SEARCH = "SEARCHBY";
+    private static final String INVALID = "INVALID";
     
     @FXML private Button searchButton;
     @FXML private ComboBox<BookField> options;
     @FXML private TextField value;
     private Stage stage;
     private boolean accepted;
+    private Connection connection;
+    
 
     @FXML private void cancel(ActionEvent event) {
         if (stage == null)
@@ -38,14 +48,39 @@ public class SearchController implements Initializable {
     @FXML private void search(ActionEvent event) throws IOException {
         if (stage == null)
             stage = (Stage)value.getScene().getWindow();
-        SearchResults results;
-        try {
-            results = new SearchResults(stage);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+
+        switch(getField()) {
+            case NAME :
+                connection.sendMessage(SEARCH + "_NAME_" + getValue());
+                break;
+            case AUTHOR :
+                connection.sendMessage(SEARCH + "_AUTHOR_" + getValue());
+                break;
+            case CATEGORY :
+                connection.sendMessage(SEARCH + "_CATEGORY_" + getValue());
+                break;
+            case EDITORIAL :
+                connection.sendMessage(SEARCH + "_EDITORIAL_" + getValue());
+                break;
+            default :
+                connection.sendMessage(INVALID);
+                break;
         }
-        results.show();
+    }
+
+    public void showResults(LinkedList<Book> searchResults) {
+        Platform.runLater(() -> {
+            SearchResults results;
+            try {
+                results = new SearchResults(stage, searchResults);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            SearchResultsController controller = results.getController();
+            controller.setConnection(connection);
+            results.show();
+        });
         accepted = true;
     }
 
@@ -117,5 +152,13 @@ public class SearchController implements Initializable {
                 break;
             default: break;
         }
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }

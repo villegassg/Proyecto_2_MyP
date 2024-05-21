@@ -7,15 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import net.BookField;
 
-public class SearchDialogue extends Stage {
+public class RequestConfirmation extends Stage {
     
-    private static final String SEARCH_BOOKS = "resources/scenes/searchbooks.fxml";
+    private static final String SEARCH_BOOKS = "resources/scenes/requestconfirmation.fxml";
 
-    private SearchController controller;
+    private ConfirmationController controller;
 
-    public SearchDialogue(Stage stage, short button) throws IOException {
+    public RequestConfirmation(Stage stage, String title) throws IOException {
         try {
             FXMLLoader loader = 
                 new FXMLLoader(getClass().getClassLoader().getResource(SEARCH_BOOKS));
@@ -26,8 +25,7 @@ public class SearchDialogue extends Stage {
             Scene scene = new Scene(pane);
             setScene(scene);
             controller = loader.getController();
-            controller.setValue(button);
-            stage.setOnShown(w -> controller.defineFocus());
+            controller.setBookTitle(title);
             setResizable(false);
         } catch (IOException ioe) {
             System.out.println("An error was occured when trying to deploy the " + 
@@ -37,15 +35,7 @@ public class SearchDialogue extends Stage {
         }
     }
 
-    public BookField getField() {
-        return controller.getField();
-    }
-
-    public String getValue() {
-        return controller.getValue();
-    }
-
-    public SearchController getController() {
+    public ConfirmationController getController() {
         return controller;
     }
 }
