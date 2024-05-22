@@ -5,13 +5,10 @@ import java.util.LinkedList;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.Book;
-import net.BookField;
 
 public class SearchResults extends Stage {
 

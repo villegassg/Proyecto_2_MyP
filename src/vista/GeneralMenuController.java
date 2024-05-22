@@ -1,10 +1,10 @@
 package vista;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -25,6 +25,7 @@ public class GeneralMenuController {
     private static final String FINISHRESULTS = "FINISHRESULTS";
     private static final String REQUESTAPROVED = "REQUESTAPROVED";
     private static final String REQUESTDENIED = "REQUESTDENIED";
+    private static final String DISCONNECT = "DISCONNECT";
 
     @FXML private MenuItem connectMenu, nameMenu, authorMenu, categoryMenu, editorialMenu;
     @FXML private RadioButton nameButton, authorButton, categoryButton, editorialButton;
@@ -185,23 +186,27 @@ public class GeneralMenuController {
     }
 
     private void requestAproved(String message) { 
-        RequestConfirmation requestConfirmation;
-        try {
-            requestConfirmation = new RequestConfirmation(stage, message);
-        } catch (IOException e) {
-            errorDialogue("Error when trying to load the interface", message);
-            return;
-        }
-        requestConfirmation.showAndWait();
+        Platform.runLater(() -> {
+            RequestConfirmation requestConfirmation;
+            try {
+                requestConfirmation = new RequestConfirmation(stage, message);
+            } catch (IOException e) {
+                errorDialogue("Error when trying to load the interface", message);
+                return;
+            }
+            requestConfirmation.showAndWait();
+        });
     }
 
     private void requestDenied(String message) {
-        Alert dialogue = new Alert(AlertType.ERROR);
-        dialogue.setTitle("Request Denied");
-        dialogue.setHeaderText(null);
-        dialogue.setContentText(message);
-        dialogue.showAndWait();
-        stage.requestFocus();
+        Platform.runLater(() -> {
+            Alert dialogue = new Alert(AlertType.ERROR);
+            dialogue.setTitle("Request Denied");
+            dialogue.setHeaderText(null);
+            dialogue.setContentText(message);
+            dialogue.showAndWait();
+            stage.requestFocus();
+        });
     }
 
     private void errorDialogue(String title, String message) {
@@ -216,6 +221,14 @@ public class GeneralMenuController {
             //dialogue.setOnCloseRequest(e -> table.getItems().clear());
             dialogue.showAndWait();
             stage.requestFocus();
+        }
+    }
+
+    public void disconnect(ActionEvent event) {
+        try {
+            connection.sendMessage(DISCONNECT);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
  

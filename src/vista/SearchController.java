@@ -1,7 +1,6 @@
 package vista;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;

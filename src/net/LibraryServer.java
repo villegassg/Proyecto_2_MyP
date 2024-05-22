@@ -15,8 +15,8 @@ public class LibraryServer {
     private static final String SEARCH = "SEARCHBY";
     private static final String REQUEST = "REQUEST";
 
-    private static final String CONNECT = "CONNECT";
     private static final String INVALID = "INVALID";
+    private static final String DISCONNECT = "DISCONNECT";
     private static final String BOOK = "BOOK";
     private static final String FINISHRESULTS = "FINISHRESULTS";
     private static final String REQUESTAPROVED = "REQUESTAPROVED";
@@ -88,7 +88,12 @@ public class LibraryServer {
                 search(connection, message);
                 writeMessage("Search function asked by port %d", port);
             } else if (message.startsWith(REQUEST)) {
+                writeMessage("Book requested by port %d", port);
                 request(connection, message);
+            } else if (message.startsWith(DISCONNECT)) {
+                toDisconnect(connection);
+            } else if (message.startsWith(INVALID)) {
+                error(connection, message.toString());
             }
         }
     }
@@ -203,17 +208,6 @@ public class LibraryServer {
     }
 
     /**
-     * Permite al servidor del cliente ejecutar la acción de conectarse al menú inicial de la 
-     * conexión.
-     * @param connection la conexión.
-     */
-    private void connect(Connection connection) {
-        try {
-            connection.sendMessage(CONNECT);
-        } catch (IOException ioe) {}
-    }
-
-    /**
      * Imprime un mensaje en la pantalla del servidor.
      * @param format el formato del mensaje.
      * @param arguments los argumentos del mensaje.
@@ -223,7 +217,7 @@ public class LibraryServer {
             listener.processMessage(format, arguments);
     }
 
-    public Database createDatabase() {
+    private Database createDatabase() {
         Database db = new Database(); 
 
         Book book1 = new Book("El Señor de los Anillos", "J.R.R. Tolkien", 
@@ -234,8 +228,10 @@ public class LibraryServer {
             "Fantasía", "Salamandra", "resources/portraits/harry_potter_y_la_piedra_filosofal.jpg");
         Book book4 = new Book("1984", "George Orwell", 
             "Ciencia ficción", "Debolsillo", "resources/portraits/1984.jpg");
+        Book book5 = new Book("El camino de los reyes", "Brandon Sanderson", 
+            "Fantasía Contemporánea", "NOVA", "resources/portraits/el_camino_de_los_reyes.jpg");
 
-        db.saveAll(book1, book2, book3, book4);
+        db.saveAll(book1, book2, book3, book4, book5);
 
         return db;
     }
