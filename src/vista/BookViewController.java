@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -72,16 +71,6 @@ public class BookViewController implements Initializable {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-    }
-
-    private void errorDialogue(String title, String message) {
-        Alert dialogue = new Alert(AlertType.ERROR);
-        dialogue.setTitle(title);
-        dialogue.setHeaderText(null);
-        dialogue.setContentText(message);
-        //dialogue.setOnCloseRequest(e -> table.getItems().clear());
-        dialogue.showAndWait();
-        stage.requestFocus();
     }
 
     @FXML private void back() {

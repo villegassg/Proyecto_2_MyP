@@ -128,7 +128,7 @@ public class SearchController implements Initializable {
                     searchButton.setDisable(false);
                 } else {
                     // If the TextField is empty, reset its background color
-                    value.setStyle("");
+                    value.setStyle("-fx-background-color:FFCCCC;");
                     searchButton.setDisable(true);
                 }
             }
